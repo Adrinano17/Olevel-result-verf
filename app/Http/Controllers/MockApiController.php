@@ -205,6 +205,151 @@ class MockApiController extends Controller
 
         return $result;
     }
+
+    /**
+     * Mock JAMB API endpoint
+     */
+    public function jamb(Request $request)
+    {
+        // Validate API key
+        $apiKey = $request->header('Authorization');
+        if (!$apiKey || !str_starts_with($apiKey, 'Bearer ')) {
+            return response()->json([
+                'success' => false,
+                'code' => 'UNAUTHORIZED',
+                'message' => 'Invalid or missing API key',
+                'data' => null,
+            ], 401);
+        }
+
+        // Validate request
+        $validator = Validator::make($request->all(), [
+            'jamb_reg_number' => 'required|string',
+            'year' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'code' => 'VALIDATION_ERROR',
+                'message' => 'Invalid request parameters',
+                'data' => null,
+            ], 400);
+        }
+
+        $regNumber = strtoupper($request->jamb_reg_number);
+        $year = $request->year;
+
+        // Simulate different scenarios
+        if (str_contains($regNumber, 'INVALID') || strlen($regNumber) < 8) {
+            return response()->json([
+                'success' => false,
+                'code' => 'INVALID_REG_NUMBER',
+                'message' => 'Invalid JAMB registration number',
+                'data' => null,
+            ], 400);
+        }
+
+        if (str_contains($regNumber, 'NOTFOUND') || str_contains($regNumber, 'NF')) {
+            return response()->json([
+                'success' => false,
+                'code' => 'CANDIDATE_NOT_FOUND',
+                'message' => 'No JAMB result found for the provided registration number',
+                'data' => null,
+            ], 404);
+        }
+
+        // Generate mock JAMB result
+        $score = rand(150, 350);
+        $subjects = [
+            ['subject' => 'Mathematics', 'score' => rand(40, 100)],
+            ['subject' => 'English Language', 'score' => rand(40, 100)],
+            ['subject' => 'Physics', 'score' => rand(40, 100)],
+            ['subject' => 'Chemistry', 'score' => rand(40, 100)],
+        ];
+
+        return response()->json([
+            'success' => true,
+            'code' => 'SUCCESS',
+            'message' => 'JAMB result verified successfully',
+            'data' => [
+                'jamb_reg_number' => $regNumber,
+                'jamb_score' => $score,
+                'exam_year' => $year,
+                'subjects' => $subjects,
+                'verified_at' => now()->toIso8601String(),
+            ],
+        ], 200);
+    }
+
+    /**
+     * Mock Post-UTME API endpoint
+     */
+    public function postUtme(Request $request)
+    {
+        // Validate API key
+        $apiKey = $request->header('Authorization');
+        if (!$apiKey || !str_starts_with($apiKey, 'Bearer ')) {
+            return response()->json([
+                'success' => false,
+                'code' => 'UNAUTHORIZED',
+                'message' => 'Invalid or missing API key',
+                'data' => null,
+            ], 401);
+        }
+
+        // Validate request
+        $validator = Validator::make($request->all(), [
+            'post_utme_reg_number' => 'required|string',
+            'year' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'code' => 'VALIDATION_ERROR',
+                'message' => 'Invalid request parameters',
+                'data' => null,
+            ], 400);
+        }
+
+        $regNumber = strtoupper($request->post_utme_reg_number);
+        $year = $request->year;
+
+        // Simulate different scenarios
+        if (str_contains($regNumber, 'INVALID') || strlen($regNumber) < 8) {
+            return response()->json([
+                'success' => false,
+                'code' => 'INVALID_REG_NUMBER',
+                'message' => 'Invalid Post-UTME registration number',
+                'data' => null,
+            ], 400);
+        }
+
+        if (str_contains($regNumber, 'NOTFOUND') || str_contains($regNumber, 'NF')) {
+            return response()->json([
+                'success' => false,
+                'code' => 'CANDIDATE_NOT_FOUND',
+                'message' => 'No Post-UTME result found for the provided registration number',
+                'data' => null,
+            ], 404);
+        }
+
+        // Generate mock Post-UTME result
+        $score = rand(30, 100);
+
+        return response()->json([
+            'success' => true,
+            'code' => 'SUCCESS',
+            'message' => 'Post-UTME result verified successfully',
+            'data' => [
+                'post_utme_reg_number' => $regNumber,
+                'post_utme_score' => $score,
+                'exam_year' => $year,
+                'verified_at' => now()->toIso8601String(),
+            ],
+        ], 200);
+    }
 }
 
 

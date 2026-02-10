@@ -66,4 +66,28 @@ class User extends Authenticatable
     {
         return $this->hasMany(AuditLog::class);
     }
+
+    /**
+     * Get JAMB results for this user
+     */
+    public function jambResults()
+    {
+        return $this->hasMany(JambResult::class);
+    }
+
+    /**
+     * Get Post-UTME results for this user
+     */
+    public function postUtmeResults()
+    {
+        return $this->hasMany(PostUtmeResult::class);
+    }
+
+    /**
+     * Get admission validations for this user
+     */
+    public function admissionValidations()
+    {
+        return $this->hasMany(AdmissionValidation::class);
+    }
 }

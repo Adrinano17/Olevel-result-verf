@@ -46,6 +46,54 @@
   - Candidate not found
   - Server errors
 
+### 1.5 JAMB Result Management (Phase 2)
+- **FR-5.1**: System shall accept JAMB result submissions with:
+  - JAMB registration number
+  - JAMB score (0-400)
+  - JAMB subjects and scores (4 subjects)
+  - Examination year
+  - Course choices (first, second, third choice)
+- **FR-5.2**: System shall validate JAMB results against course requirements
+- **FR-5.3**: System shall store and retrieve JAMB results for users
+- **FR-5.4**: System shall provide mock JAMB API endpoint
+
+### 1.6 Post-UTME Result Management (Phase 2)
+- **FR-6.1**: System shall accept Post-UTME result submissions with:
+  - Post-UTME registration number
+  - Post-UTME score (0-100)
+  - Examination year
+  - Course applied for
+- **FR-6.2**: System shall validate Post-UTME results against course cutoffs
+- **FR-6.3**: System shall link Post-UTME results to JAMB results
+- **FR-6.4**: System shall verify Post-UTME course matches JAMB course choice
+- **FR-6.5**: System shall provide mock Post-UTME API endpoint
+
+### 1.7 Admission Validation System (Phase 2)
+- **FR-7.1**: System shall perform comprehensive admission validation combining:
+  - JAMB result validation
+  - O-Level result validation (uses existing FR-2.1 to FR-2.6)
+  - Post-UTME result validation (optional)
+- **FR-7.2**: System shall validate course-specific requirements:
+  - JAMB subject combinations
+  - O-Level subject combinations
+  - Minimum grades per subject
+  - Minimum scores (JAMB and Post-UTME)
+- **FR-7.3**: System shall determine admission eligibility based on all validations
+- **FR-7.4**: System shall display detailed validation results showing:
+  - What passed/failed
+  - Specific rejection reasons
+  - Overall eligibility status
+- **FR-7.5**: System shall allow users to link existing O-Level verification to admission validation
+
+### 1.8 Course Management (Phase 2)
+- **FR-8.1**: System shall maintain a database of courses (20 courses across 5 faculties)
+- **FR-8.2**: System shall define course-specific requirements:
+  - Required JAMB subjects
+  - Required O-Level subjects
+  - Minimum grades
+  - Cutoff scores (JAMB and Post-UTME)
+- **FR-8.3**: System shall support multiple faculties (Engineering, Sciences, Medicine & Health Sciences, Social Sciences, Management Sciences)
+
 ## 2. Non-Functional Requirements
 
 ### 2.1 Performance
@@ -93,6 +141,9 @@
 - **AS-2**: Users have internet connectivity
 - **AS-3**: Examination bodies (WAEC/NECO) provide API access
 - **AS-4**: API keys will be provided by examination providers
+- **AS-5**: Users will have verified O-Level results before admission validation
+- **AS-6**: JAMB and Post-UTME results are submitted by users (not verified via external API)
+- **AS-7**: Course requirements are predefined and maintained by administrators
 
 
 

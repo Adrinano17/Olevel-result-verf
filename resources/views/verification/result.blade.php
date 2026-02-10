@@ -11,9 +11,17 @@
                     <h4 class="mb-0">
                         <i class="fas fa-file-alt"></i> Verification Result
                     </h4>
-                    <a href="{{ route('verification.index') }}" class="btn btn-sm btn-outline-primary">
-                        <i class="fas fa-arrow-left"></i> New Verification
-                    </a>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-sm btn-success" onclick="window.print()">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="downloadAsPDF()">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                        <a href="{{ route('verification.index') }}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                    </div>
                 </div>
                 <div class="card-body">
                     @if(session('success'))
@@ -154,6 +162,66 @@
         </div>
     </div>
 </div>
+
+@push('styles')
+<style media="print">
+    @page {
+        margin: 1cm;
+        size: A4;
+    }
+    body * {
+        visibility: hidden;
+    }
+    .printable-area, .printable-area * {
+        visibility: visible;
+    }
+    .printable-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+    .no-print {
+        display: none !important;
+    }
+    .card {
+        border: none;
+        box-shadow: none;
+        page-break-inside: avoid;
+    }
+    .card-header .btn-group {
+        display: none !important;
+    }
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .table th, .table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    .badge {
+        border: 1px solid #000;
+        padding: 2px 6px;
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    function downloadAsPDF() {
+        window.print();
+    }
+    
+    // Add printable area class to main content
+    document.addEventListener('DOMContentLoaded', function() {
+        const cardBody = document.querySelector('.card-body');
+        if (cardBody) {
+            cardBody.closest('.card').classList.add('printable-area');
+        }
+    });
+</script>
+@endpush
 @endsection
 
 

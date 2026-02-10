@@ -13,12 +13,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     @stack('styles')
+    <style>
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark no-print">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
-                <i class="fas fa-certificate"></i> O-Level Verification
+                <i class="fas fa-certificate"></i> Admission System
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -28,12 +35,22 @@
                     @auth
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('verification.index') }}">
-                                <i class="fas fa-search"></i> Verify Result
+                                <i class="fas fa-search"></i> O-Level
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('verification.history') }}">
-                                <i class="fas fa-history"></i> History
+                            <a class="nav-link" href="{{ route('jamb.index') }}">
+                                <i class="fas fa-graduation-cap"></i> JAMB
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('postutme.index') }}">
+                                <i class="fas fa-file-alt"></i> Post-UTME
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admission.index') }}">
+                                <i class="fas fa-check-circle"></i> Admission
                             </a>
                         </li>
                         <li class="nav-item dropdown">
@@ -72,7 +89,7 @@
         @yield('content')
     </main>
 
-    <footer class="bg-dark text-white text-center py-3 mt-5">
+    <footer class="bg-dark text-white text-center py-3 mt-5 no-print">
         <div class="container">
             <p class="mb-0">&copy; {{ date('Y') }} O-Level Result Verification System. All rights reserved.</p>
         </div>
