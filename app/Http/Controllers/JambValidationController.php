@@ -29,10 +29,14 @@ class JambValidationController extends Controller
             ->orderBy('name')
             ->get();
 
-        $jambResults = JambResult::where('user_id', Auth::id())
-            ->with(['firstChoiceCourse', 'secondChoiceCourse', 'thirdChoiceCourse'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // Show results for authenticated users, or empty for guests
+        $jambResults = collect();
+        if (Auth::check()) {
+            $jambResults = JambResult::where('user_id', Auth::id())
+                ->with(['firstChoiceCourse', 'secondChoiceCourse', 'thirdChoiceCourse'])
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
 
         return view('jamb.index', compact('courses', 'jambResults'));
     }
@@ -44,7 +48,7 @@ class JambValidationController extends Controller
     {
         try {
             $jambResult = JambResult::create([
-                'user_id' => Auth::id(),
+                'user_id' => Auth::id(), // null if guest
                 'jamb_reg_number' => strtoupper(trim($request->jamb_reg_number)),
                 'jamb_score' => $request->jamb_score,
                 'exam_year' => $request->exam_year,
@@ -93,13 +97,26 @@ class JambValidationController extends Controller
         ])->findOrFail($id);
 
         // Check authorization
-        if (!Auth::user()->isAdmin() && $jambResult->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized access.');
+        // - Admins can view all
+        // - Authenticated users can view their own
+        // - Guests can view if IP matches (for their own submissions)
+        if (Auth::check()) {
+            if (!Auth::user()->isAdmin() && $jambResult->user_id !== Auth::id()) {
+                abort(403, 'Unauthorized access.');
+            }
+        } else {
+            // Guest can only view if IP matches
+            if ($jambResult->ip_address !== request()->ip()) {
+                abort(403, 'Unauthorized access.');
+            }
         }
 
         return view('jamb.result', compact('jambResult'));
     }
 }
+
+
+
 
 
 

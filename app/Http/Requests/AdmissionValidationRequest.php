@@ -32,10 +32,6 @@ class AdmissionValidationRequest extends FormRequest
                 'required',
                 'exists:courses,id',
             ],
-            'post_utme_result_id' => [
-                'nullable',
-                'exists:post_utme_results,id',
-            ],
         ];
     }
 
@@ -54,6 +50,9 @@ class AdmissionValidationRequest extends FormRequest
         ];
     }
 }
+
+
+
 
 
 

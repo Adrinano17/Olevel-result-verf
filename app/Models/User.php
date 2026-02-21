@@ -90,4 +90,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(AdmissionValidation::class);
     }
+
+    /**
+     * Get student profile for this user
+     */
+    public function studentProfile()
+    {
+        return $this->hasOne(StudentProfile::class);
+    }
 }

@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="row mb-4">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="card {{ $validation->jamb_valid ? 'border-success' : 'border-danger' }}">
                                 <div class="card-body">
                                     <h6>JAMB Validation</h6>
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="card {{ $validation->olevel_valid ? 'border-success' : 'border-danger' }}">
                                 <div class="card-body">
                                     <h6>O-Level Validation</h6>
@@ -53,23 +53,6 @@
                                     </span>
                                     @if($validation->olevel_validation_details)
                                         <p class="mt-2 small">{{ $validation->olevel_validation_details['summary'] ?? '' }}</p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card {{ $validation->post_utme_valid === true ? 'border-success' : ($validation->post_utme_valid === false ? 'border-danger' : 'border-secondary') }}">
-                                <div class="card-body">
-                                    <h6>Post-UTME Validation</h6>
-                                    @if($validation->post_utme_valid === null)
-                                        <span class="badge bg-secondary">NOT PROVIDED</span>
-                                    @else
-                                        <span class="badge bg-{{ $validation->post_utme_valid ? 'success' : 'danger' }}">
-                                            {{ $validation->post_utme_valid ? 'PASSED' : 'FAILED' }}
-                                        </span>
-                                        @if($validation->post_utme_validation_details)
-                                            <p class="mt-2 small">{{ $validation->post_utme_validation_details['summary'] ?? '' }}</p>
-                                        @endif
                                     @endif
                                 </div>
                             </div>

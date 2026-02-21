@@ -59,25 +59,12 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-12 mb-3">
                                     <label for="course_id" class="form-label"><strong>Course <span class="text-danger">*</span></strong></label>
                                     <select class="form-select" id="course_id" name="course_id" required>
                                         <option value="">Select Course</option>
                                         @foreach($courses as $course)
                                             <option value="{{ $course->id }}">{{ $course->faculty->code }} - {{ $course->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label for="post_utme_result_id" class="form-label"><strong>Post-UTME Result (Optional)</strong></label>
-                                    <select class="form-select" id="post_utme_result_id" name="post_utme_result_id">
-                                        <option value="">None (Optional)</option>
-                                        @php
-                                            $postUtmeResults = \App\Models\PostUtmeResult::where('user_id', auth()->id())->get();
-                                        @endphp
-                                        @foreach($postUtmeResults as $postUtme)
-                                            <option value="{{ $postUtme->id }}">{{ $postUtme->post_utme_reg_number }} - Score: {{ $postUtme->post_utme_score }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -153,6 +140,9 @@
 </script>
 @endpush
 @endsection
+
+
+
 
 
 

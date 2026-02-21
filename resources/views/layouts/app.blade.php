@@ -32,27 +32,37 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    <!-- Public links - available to everyone -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('verification.index') }}">
+                            <i class="fas fa-search"></i> O-Level
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('jamb.index') }}">
+                            <i class="fas fa-graduation-cap"></i> JAMB
+                        </a>
+                    </li>
+                    
                     @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('verification.index') }}">
-                                <i class="fas fa-search"></i> O-Level
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('jamb.index') }}">
-                                <i class="fas fa-graduation-cap"></i> JAMB
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('postutme.index') }}">
-                                <i class="fas fa-file-alt"></i> Post-UTME
-                            </a>
-                        </li>
+                        <!-- Authenticated user links -->
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admission.index') }}">
                                 <i class="fas fa-check-circle"></i> Admission
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('student-profile.index') }}">
+                                <i class="fas fa-user"></i> My Profile
+                            </a>
+                        </li>
+                        @if(Auth::user()->isAdmin())
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.students.index') }}">
+                                <i class="fas fa-users"></i> All Students
+                            </a>
+                        </li>
+                        @endif
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                                 <i class="fas fa-user"></i> {{ Auth::user()->name }}
@@ -69,9 +79,10 @@
                             </ul>
                         </li>
                     @else
+                        <!-- Guest links -->
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">
-                                <i class="fas fa-sign-in-alt"></i> Login
+                                <i class="fas fa-sign-in-alt"></i> Admin Login
                             </a>
                         </li>
                         <li class="nav-item">
@@ -101,3 +112,4 @@
     @stack('scripts')
 </body>
 </html>
+

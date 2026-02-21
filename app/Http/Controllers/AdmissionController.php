@@ -77,7 +77,7 @@ class AdmissionController extends Controller
                 Auth::id(),
                 $request->jamb_result_id,
                 $request->olevel_verification_id,
-                $request->post_utme_result_id,
+                null, // Post-UTME removed
                 $request->course_id
             );
 

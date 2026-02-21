@@ -231,4 +231,25 @@ For questions or support, please contact the development team.
 
 
 
+$admin = App\Models\User::where('role', 'admin')->first();
+if ($admin) {
+    $admin->password = Hash::make('newpassword123');
+    $admin->save();
+    echo "Password reset for: " . $admin->email . "\n";
+} else {
+    echo "No admin user found\n";
+}
+exit
+
+$user = new App\Models\User();
+$user->name = 'Admin User';
+$user->email = 'admin@example.com';
+$user->password = Hash::make('password123');
+$user->role = 'admin';
+$user->save();
+echo "Admin created: admin@example.com / password123\n";
+exit
+
+
+
 

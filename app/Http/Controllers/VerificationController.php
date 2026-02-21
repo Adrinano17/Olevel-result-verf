@@ -82,9 +82,9 @@ class VerificationController extends Controller
                 ->withInput();
         }
 
-        // Create verification request
+        // Create verification request (user_id can be null for guests)
         $verificationRequest = VerificationRequest::create([
-            'user_id' => Auth::id(),
+            'user_id' => Auth::id(), // null if guest
             'exam_number' => strtoupper(trim($request->exam_number)),
             'exam_year' => $request->exam_year,
             'exam_body' => $request->exam_body,
@@ -173,9 +173,19 @@ class VerificationController extends Controller
         $verificationRequest = VerificationRequest::with('verificationResult')
             ->findOrFail($id);
 
-        // Check authorization (users can only view their own requests unless admin)
-        if (!Auth::user()->isAdmin() && $verificationRequest->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized access.');
+        // Check authorization
+        // - Admins can view all
+        // - Authenticated users can view their own
+        // - Guests can view if IP matches (for their own submissions)
+        if (Auth::check()) {
+            if (!Auth::user()->isAdmin() && $verificationRequest->user_id !== Auth::id()) {
+                abort(403, 'Unauthorized access.');
+            }
+        } else {
+            // Guest can only view if IP matches
+            if ($verificationRequest->ip_address !== request()->ip()) {
+                abort(403, 'Unauthorized access.');
+            }
         }
 
         return view('verification.result', compact('verificationRequest'));

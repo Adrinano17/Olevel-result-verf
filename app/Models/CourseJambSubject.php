@@ -32,3 +32,6 @@ class CourseJambSubject extends Model
 
 
 
+
+
+

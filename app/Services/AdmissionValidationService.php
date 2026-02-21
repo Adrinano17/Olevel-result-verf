@@ -75,11 +75,10 @@ class AdmissionValidationService
             $validation->post_utme_validation_details = null;
         }
 
-        // 4. Determine overall eligibility
+        // 4. Determine overall eligibility (Post-UTME removed)
         $validation->overall_eligible = 
             $validation->jamb_valid && 
-            $validation->olevel_valid && 
-            ($postUtmeResultId ? $validation->post_utme_valid : true);
+            $validation->olevel_valid;
 
         // 5. Set status and rejection reasons
         if ($validation->overall_eligible) {
@@ -130,6 +129,9 @@ class AdmissionValidationService
         return $reasons;
     }
 }
+
+
+
 
 
 
